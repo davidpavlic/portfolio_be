@@ -12,6 +12,7 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+//TODO: Learn CORS
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/projectcard")
@@ -23,35 +24,28 @@ public class ProjectCardController {
         this.projectCardRepository = projectCardRepository;
     }
 
+    //TODO: Separate dto conversion externally (See old code)
     @GetMapping({"", "/"})
     public Collection<ProjectCardDTO> getAllProjectCards() {
         return projectCardRepository.findAll().stream().map(projectCard -> {
-            ProjectCardDTO dto = new ProjectCardDTO();
-            dto.setProjectcard_id(projectCard.getProjectcard_id());
-            dto.setTitle(projectCard.getProjectcard_title());
-            dto.setDescription(projectCard.getProjectcard_description());
-            // Convert image bytes to a Base64 encoded string if present
-            if (projectCard.getProjectcard_image() != null) {
-                String base64Image = Base64.getEncoder().encodeToString(projectCard.getProjectcard_image());
-                dto.setBase64Image(base64Image);
-            }
+            ProjectCardDTO dto = new ProjectCardDTO(
+                    projectCard.getProjectcard_id(),
+                    projectCard.getProjectcard_title(),
+                    projectCard.getProjectcard_description(),
+                    Base64.getEncoder().encodeToString(projectCard.getProjectcard_image()));
             return dto;
         }).collect(Collectors.toList());
     }
 
+    //TODO: Look how it is handled in the old code.
     @PostMapping(value = {"", "/"}, consumes = "multipart/form-data")
     public ResponseEntity<ProjectCard> createProjectCard(
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam("image") MultipartFile image) throws IOException {
 
-        ProjectCard projectCard = new ProjectCard();
-        projectCard.setProjectcard_title(title);
-        projectCard.setProjectcard_description(description);
-        projectCard.setProjectcard_image(image.getBytes());
-        projectCardRepository.save(projectCard);
-
-        return ResponseEntity.ok(projectCard);
+        ProjectCard projectCard = new ProjectCard(title, description, image.getBytes());
+        return ResponseEntity.ok(projectCardRepository.save(projectCard));
     }
 
     @DeleteMapping("/{id}")
