@@ -35,6 +35,10 @@ public class ProjectCardService {
         return projectCardRepository.save(projectCard);
     }
 
+    public ProjectCard createProjectCard(ProjectCard projectCard) throws IOException {
+        return projectCardRepository.save(projectCard);
+    }
+
     public ProjectCard updateProjectCard(Long id, ProjectCardDTO projectCardDTO) throws IOException {
         ProjectCard existingProjectCard = projectCardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("ProjectCard not found with id: " + id));

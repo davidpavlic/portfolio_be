@@ -7,15 +7,22 @@ public class ProjectCardDTO {
     private String title;
     private String description;
     private String base64Image;
-    private List<String> techStacks;
+    private List<String> techstacks;
 
     //Constructor
-    public ProjectCardDTO(Long projectcard_id, String title, String description, String base64Image, List<String> techStacks) {
+    public ProjectCardDTO(String title, String description, String base64Image, List<String> techstacks) {
+        this.title = title;
+        this.description = description;
+        this.base64Image = base64Image;
+        this.techstacks = techstacks;
+    }
+
+    public ProjectCardDTO(Long projectcard_id, String title, String description, String base64Image, List<String> techstacks) {
         this.projectcard_id = projectcard_id;
         this.title = title;
         this.description = description;
         this.base64Image = base64Image;
-        this.techStacks = techStacks;
+        this.techstacks = techstacks;
     }
 
     // Getters and setters
@@ -41,10 +48,10 @@ public class ProjectCardDTO {
     }
 
     public List<String> getTechStacks() {
-        return techStacks;
+        return techstacks;
     }
 
-    public void setTechStacks(List<String> techStacks) {
-        this.techStacks = techStacks;
+    public void setTechStacks(List<String> techstacks) {
+        this.techstacks = techstacks;
     }
 }
