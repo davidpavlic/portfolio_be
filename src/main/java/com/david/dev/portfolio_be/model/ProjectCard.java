@@ -3,6 +3,9 @@ package com.david.dev.portfolio_be.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @Table(name="project_card")
@@ -20,13 +23,26 @@ public class ProjectCard {
     @Lob
     private byte[] projectcard_image;
 
+    @OneToMany(mappedBy = "projectCard", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectCardTech> techStacks = new ArrayList<>();
+
     //Constructors
-    public ProjectCard(){}
+    public ProjectCard(){
+        this.techStacks = new ArrayList<>();
+    }
 
     public ProjectCard(String projectcard_title, String projectcard_description, byte[] projectcard_image) {
         this.projectcard_title = projectcard_title;
         this.projectcard_description = projectcard_description;
         this.projectcard_image = projectcard_image;
+        this.techStacks = new ArrayList<>();
+    }
+
+    public ProjectCard(String projectcard_title, String projectcard_description, byte[] projectcard_image, List<ProjectCardTech> techStacks) {
+        this.projectcard_title = projectcard_title;
+        this.projectcard_description = projectcard_description;
+        this.projectcard_image = projectcard_image;
+        this.techStacks = techStacks;
     }
 
     //Getters and Setters

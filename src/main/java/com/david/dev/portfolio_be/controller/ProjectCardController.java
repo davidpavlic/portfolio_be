@@ -1,6 +1,8 @@
 package com.david.dev.portfolio_be.controller;
 
 import com.david.dev.portfolio_be.model.ProjectCard;
+import com.david.dev.portfolio_be.model.ProjectCardTechRepository;
+import com.david.dev.portfolio_be.model.ProjectTechRepository;
 import com.david.dev.portfolio_be.model.dto.ProjectCardDTO;
 import com.david.dev.portfolio_be.service.ProjectCardService;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +17,13 @@ import java.util.Collection;
 public class ProjectCardController {
 
     private final ProjectCardService projectCardService;
+    private final ProjectTechRepository projectTechRepository;
+    private final ProjectCardTechRepository projectCardTechRepository;
 
-    public ProjectCardController(ProjectCardService projectCardService) {
+    public ProjectCardController(ProjectCardService projectCardService, ProjectTechRepository projectTechRepository, ProjectCardTechRepository projectCardTechRepository) {
         this.projectCardService = projectCardService;
+        this.projectTechRepository = projectTechRepository;
+        this.projectCardTechRepository = projectCardTechRepository;
     }
 
     @GetMapping({"", "/"})

@@ -1,17 +1,21 @@
 package com.david.dev.portfolio_be.model.dto;
 
+import java.util.List;
+
 public class ProjectCardDTO {
     private Long projectcard_id;
     private String title;
     private String description;
     private String base64Image;
+    private List<String> techStacks;
 
     //Constructor
-    public ProjectCardDTO(Long projectcard_id, String title, String description, String base64Image) {
+    public ProjectCardDTO(Long projectcard_id, String title, String description, String base64Image, List<String> techStacks) {
         this.projectcard_id = projectcard_id;
         this.title = title;
         this.description = description;
         this.base64Image = base64Image;
+        this.techStacks = techStacks;
     }
 
     // Getters and setters
@@ -34,5 +38,13 @@ public class ProjectCardDTO {
     }
     public void setBase64Image(String base64Image) {
         this.base64Image = base64Image;
+    }
+
+    public List<String> getTechStacks() {
+        return techStacks;
+    }
+
+    public void setTechStacks(List<String> techStacks) {
+        this.techStacks = techStacks;
     }
 }

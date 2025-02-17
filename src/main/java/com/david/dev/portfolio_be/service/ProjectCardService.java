@@ -2,12 +2,15 @@ package com.david.dev.portfolio_be.service;
 
 import com.david.dev.portfolio_be.model.ProjectCard;
 import com.david.dev.portfolio_be.model.ProjectCardRepository;
+import com.david.dev.portfolio_be.model.ProjectCardTech;
 import com.david.dev.portfolio_be.model.dto.ProjectCardDTO;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,11 +59,18 @@ public class ProjectCardService {
     private ProjectCardDTO convertToDTO(ProjectCard projectCard) {
         String imageBase64 = projectCard.getProjectcard_image() != null ?
                 Base64.getEncoder().encodeToString(projectCard.getProjectcard_image()) : null;
+
+        List<String> techStacks = new ArrayList<>();
+        for(ProjectCardTech projectCardTech : projectCard.getTechStacks()){
+            techStacks.add(projectCardTech.getProjectTech().getProjecttech_name());
+        }
+
         return new ProjectCardDTO(
                 projectCard.getProjectcard_id(),
                 projectCard.getProjectcard_title(),
                 projectCard.getProjectcard_description(),
-                imageBase64
+                imageBase64,
+                techStacks
         );
     }
 }
