@@ -1,7 +1,7 @@
 package com.david.dev.portfolio_be.service;
 
 import com.david.dev.portfolio_be.model.ProjectCard;
-import com.david.dev.portfolio_be.model.ProjectCardRepository;
+import com.david.dev.portfolio_be.repository.ProjectCardRepository;
 import com.david.dev.portfolio_be.model.ProjectCardTech;
 import com.david.dev.portfolio_be.model.dto.ProjectCardDTO;
 import org.springframework.stereotype.Service;

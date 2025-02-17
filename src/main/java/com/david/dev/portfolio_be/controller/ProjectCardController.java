@@ -1,8 +1,8 @@
 package com.david.dev.portfolio_be.controller;
 
 import com.david.dev.portfolio_be.model.ProjectCard;
-import com.david.dev.portfolio_be.model.ProjectCardTechRepository;
-import com.david.dev.portfolio_be.model.ProjectTechRepository;
+import com.david.dev.portfolio_be.repository.ProjectCardTechRepository;
+import com.david.dev.portfolio_be.repository.ProjectTechRepository;
 import com.david.dev.portfolio_be.model.dto.ProjectCardDTO;
 import com.david.dev.portfolio_be.service.ProjectCardService;
 import org.springframework.http.ResponseEntity;
