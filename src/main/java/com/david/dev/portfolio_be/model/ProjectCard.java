@@ -20,7 +20,9 @@ public class ProjectCard {
     @Lob
     private byte[] projectcard_image;
 
-    //Constructor
+    //Constructors
+    public ProjectCard(){}
+
     public ProjectCard(String projectcard_title, String projectcard_description, byte[] projectcard_image) {
         this.projectcard_title = projectcard_title;
         this.projectcard_description = projectcard_description;
