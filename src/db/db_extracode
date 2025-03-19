@@ -1,0 +1,14 @@
+CREATE OR REPLACE FUNCTION update_chat_user_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE llm_chat_user
+  SET updated_at = NOW()
+  WHERE llm_chat_id = NEW.llm_chat_id; -- Match the chat ID from the new entry
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_chat_user_timestamp
+AFTER INSERT ON llm_chat_entry
+FOR EACH ROW
+EXECUTE FUNCTION update_chat_user_timestamp();

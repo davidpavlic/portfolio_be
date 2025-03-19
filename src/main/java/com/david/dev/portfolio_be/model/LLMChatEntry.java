@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -18,15 +19,26 @@ public class LLMChatEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long llm_entry_id;
 
+    @NotNull
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "llm_chat_id")
     private LLMChatUser llmChatUser;
 
+    @NotNull
+    @Column(columnDefinition = "TEXT")
     private String text;
 
+    @NotNull
     private Boolean isUser;
 
+    @NotNull
     private Integer entry_order;
 
+    public LLMChatEntry(LLMChatUser llmChatUser, String text, Boolean isUser, Integer entry_order) {
+        this.llmChatUser = llmChatUser;
+        this.text = text;
+        this.isUser = isUser;
+        this.entry_order = entry_order;
+    }
 }

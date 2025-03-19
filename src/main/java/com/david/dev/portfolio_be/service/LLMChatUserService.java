@@ -2,7 +2,6 @@ package com.david.dev.portfolio_be.service;
 
 import com.david.dev.portfolio_be.model.LLMChatUser;
 import com.david.dev.portfolio_be.repository.LLMChatUserRepository;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -24,4 +23,13 @@ public class LLMChatUserService {
     public Optional<LLMChatUser> getAllLLMChatsByChat(Long id) {
         return llmChatUserRepository.findById(id);
     }
+
+    public LLMChatUser createLLMChatUser(LLMChatUser llmChatUser){
+        return llmChatUserRepository.save(llmChatUser);
+    }
+
+    public void deleteLLMChat(Long id) {
+        llmChatUserRepository.deleteById(id);
+    }
+
 }
