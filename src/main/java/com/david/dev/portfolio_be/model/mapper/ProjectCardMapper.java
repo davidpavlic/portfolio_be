@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-//TODO: Handle wrong parameters
 @Component
 public class ProjectCardMapper {
 

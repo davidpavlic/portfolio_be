@@ -4,7 +4,6 @@ import com.david.dev.portfolio_be.model.ProjectTech;
 import com.david.dev.portfolio_be.model.dto.ProjectTechDTO;
 import org.springframework.stereotype.Component;
 
-//TODO: Handle wrong parameters
 @Component
 public class ProjectTechMapper {
 

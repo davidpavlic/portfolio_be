@@ -38,12 +38,6 @@ public class ProjectCardService {
                 .collect(Collectors.toList());
     }
 
-    public ProjectCard createProjectCard(ProjectCardDTO projectCardDTO) throws IOException {
-        ProjectCard projectCard = projectCardMapper.toEntity(projectCardDTO);
-        return projectCardRepository.save(projectCard);
-    }
-
-    //TODO: Redundant
     public ProjectCard createProjectCard(ProjectCard projectCard, List<String> techStacks) {
         // First save the project card
         ProjectCard savedCard = projectCardRepository.save(projectCard);
