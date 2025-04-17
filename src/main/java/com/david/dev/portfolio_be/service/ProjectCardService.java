@@ -1,22 +1,32 @@
 package com.david.dev.portfolio_be.service;
 
 import com.david.dev.portfolio_be.model.ProjectCard;
+import com.david.dev.portfolio_be.model.ProjectCardTech;
+import com.david.dev.portfolio_be.model.ProjectTech;
 import com.david.dev.portfolio_be.model.mapper.ProjectCardMapper;
 import com.david.dev.portfolio_be.repository.ProjectCardRepository;
 import com.david.dev.portfolio_be.model.dto.ProjectCardDTO;
+import com.david.dev.portfolio_be.repository.ProjectCardTechRepository;
+import com.david.dev.portfolio_be.repository.ProjectTechRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class ProjectCardService {
 
+    private final ProjectCardTechRepository projectCardTechRepository;
+    private final ProjectTechRepository projectTechRepository;
     private final ProjectCardRepository projectCardRepository;
     private final ProjectCardMapper projectCardMapper;
 
-    public ProjectCardService(ProjectCardRepository projectCardRepository, ProjectCardMapper projectCardMapper) {
+    public ProjectCardService(ProjectCardTechRepository projectCardTechRepository, ProjectTechRepository projectTechRepository, ProjectCardRepository projectCardRepository, ProjectCardMapper projectCardMapper) {
+        this.projectCardTechRepository = projectCardTechRepository;
+        this.projectTechRepository = projectTechRepository;
         this.projectCardRepository = projectCardRepository;
         this.projectCardMapper = projectCardMapper;
     }
@@ -33,8 +43,23 @@ public class ProjectCardService {
     }
 
     //TODO: Redundant
-    public ProjectCard createProjectCard(ProjectCard projectCard) throws IOException {
-        return projectCardRepository.save(projectCard);
+    public ProjectCard createProjectCard(ProjectCard projectCard, List<String> techStacks) {
+        // First save the project card
+        ProjectCard savedCard = projectCardRepository.save(projectCard);
+
+        // Process each tech stack
+        for (String cardTech : techStacks) {
+            // Use the fixed repository method
+            ProjectTech existingTech = projectTechRepository.findByProjecttechName(cardTech)
+                    .orElseGet(() -> projectTechRepository.save(new ProjectTech(cardTech)));
+
+            // Create the relationship
+            ProjectCardTech newCardTech = new ProjectCardTech(savedCard, existingTech);
+            projectCardTechRepository.save(newCardTech);
+        }
+
+        return projectCardRepository.findById(savedCard.getProjectcard_id())
+                .orElseThrow(() -> new RuntimeException("Failed to create project card"));
     }
 
     public ProjectCard updateProjectCard(Long id, ProjectCardDTO projectCardDTO) throws IOException {
@@ -54,8 +79,20 @@ public class ProjectCardService {
         return projectCardRepository.save(existingProjectCard);
     }
 
+    @Transactional
     public void deleteProjectCard(Long id) {
+        ProjectCard projectCard = projectCardRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("ProjectCard not found with id: " + id));
+
+        List<ProjectCardTech> relatedTechs = projectCardTechRepository.findAllByProjectCard(projectCard);
+
+        //check if it only appears once
         projectCardRepository.deleteById(id);
+        for(ProjectCardTech cardTech : relatedTechs) {
+            if (projectCardTechRepository.findAllByProjectTech(cardTech.getProjectTech()).size() == 0) {
+                projectTechRepository.deleteById(cardTech.getProjectTech().getProjecttech_id());
+            }
+        }
     }
 
 }

@@ -13,21 +13,15 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-//TODO: Dont create duplicate techs when adding a project card
-//TODO: Delete techs when deleting a card
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/projectcard")
 public class ProjectCardController {
 
     private final ProjectCardService projectCardService;
-    private final ProjectTechService projectTechService;
-    private final ProjectCardTechService projectCardTechService;
 
-    public ProjectCardController(ProjectCardService projectCardService, ProjectTechService projectTechService, ProjectCardTechService projectCardTechService) {
+    public ProjectCardController(ProjectCardService projectCardService) {
         this.projectCardService = projectCardService;
-        this.projectTechService = projectTechService;
-        this.projectCardTechService = projectCardTechService;
     }
 
     @GetMapping({"", "/"})
@@ -42,14 +36,9 @@ public class ProjectCardController {
             @RequestParam("techstacks") List<String> techStacks,
             @RequestParam("image") MultipartFile image) throws IOException {
 
-        //TODO: Incosistent
         ProjectCard projectCard = projectCardService.createProjectCard(
-            new ProjectCard(title, description, image != null ? image.getBytes() : null)
-        );
-
-        projectCardTechService.createProjectCardTechs(
-                projectTechService.createProjectTechsFromStrings(techStacks),
-                projectCard
+            new ProjectCard(title, description, image != null ? image.getBytes() : null),
+                techStacks
         );
 
         return ResponseEntity.ok(projectCard);
