@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -14,10 +16,9 @@ import jakarta.validation.constraints.NotNull;
 @Table(name="llm_chat_entry")
 public class LLMChatEntry {
 
-    //TODO: Setup UUID
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long llm_entry_id;
+    @GeneratedValue
+    private UUID llm_entry_id;
 
     @NotNull
     @JsonBackReference

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,7 +63,7 @@ public class ProjectCardService {
                 .orElseThrow(() -> new RuntimeException("Failed to create project card"));
     }
 
-    public ProjectCard updateProjectCard(Long id, ProjectCardDTO projectCardDTO) throws IOException {
+    public ProjectCard updateProjectCard(UUID id, ProjectCardDTO projectCardDTO) throws IOException {
         ProjectCard existingProjectCard = projectCardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("ProjectCard not found with id: " + id));
 
@@ -80,7 +81,7 @@ public class ProjectCardService {
     }
 
     @Transactional
-    public void deleteProjectCard(Long id) {
+    public void deleteProjectCard(UUID id) {
         ProjectCard projectCard = projectCardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("ProjectCard not found with id: " + id));
 

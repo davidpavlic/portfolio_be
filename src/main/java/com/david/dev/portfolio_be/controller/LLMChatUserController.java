@@ -1,8 +1,6 @@
 package com.david.dev.portfolio_be.controller;
 
-import com.david.dev.portfolio_be.model.LLMChatEntry;
 import com.david.dev.portfolio_be.model.LLMChatUser;
-import com.david.dev.portfolio_be.model.dto.LLMChatEntryDTO;
 import com.david.dev.portfolio_be.service.LLMChatUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -28,7 +27,7 @@ public class LLMChatUserController {
     }
 
     @GetMapping({"{id}", "{id}/"})
-    public Optional<LLMChatUser> getLLMChatsByChat(@PathVariable("id") Long id) {
+    public Optional<LLMChatUser> getLLMChatsByChat(@PathVariable("id") UUID id) {
         return llmChatUserService.getAllLLMChatsByChat(id);
     }
 
@@ -39,7 +38,7 @@ public class LLMChatUserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLLMChat(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteLLMChat(@PathVariable("id") UUID id) {
         llmChatUserService.deleteLLMChat(id);
         return ResponseEntity.noContent().build();
     }

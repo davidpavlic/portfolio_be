@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -12,10 +14,9 @@ import lombok.NoArgsConstructor;
 @Table(name="project_tech")
 public class ProjectTech {
 
-    //TODO: Setup UUID
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long projecttech_id;
+    @GeneratedValue
+    private UUID projecttech_id;
 
     private String projecttech_name;
 

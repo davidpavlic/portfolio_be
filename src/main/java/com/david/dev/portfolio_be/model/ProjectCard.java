@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -15,10 +16,9 @@ import java.util.List;
 @Table(name="project_card")
 public class ProjectCard {
 
-    //TODO: Setup UUID
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long projectcard_id;
+    @GeneratedValue
+    private UUID projectcard_id;
 
     private String projectcard_title;
 

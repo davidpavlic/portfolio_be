@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class LLMChatUserService {
@@ -20,7 +21,7 @@ public class LLMChatUserService {
         return llmChatUserRepository.findAllByOrderByUpdatedAtDesc();
     }
 
-    public Optional<LLMChatUser> getAllLLMChatsByChat(Long id) {
+    public Optional<LLMChatUser> getAllLLMChatsByChat(UUID id) {
         return llmChatUserRepository.findById(id);
     }
 
@@ -28,7 +29,7 @@ public class LLMChatUserService {
         return llmChatUserRepository.save(llmChatUser);
     }
 
-    public void deleteLLMChat(Long id) {
+    public void deleteLLMChat(UUID id) {
         llmChatUserRepository.deleteById(id);
     }
 

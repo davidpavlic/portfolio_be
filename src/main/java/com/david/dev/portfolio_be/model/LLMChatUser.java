@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -17,10 +18,9 @@ import java.util.List;
 @Table(name="llm_chat_user")
 public class LLMChatUser {
 
-    //TODO: Setup UUID
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long llm_chat_id;
+    @GeneratedValue
+    private UUID llm_chat_id;
 
     private Long user_id;
 

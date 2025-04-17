@@ -3,8 +3,6 @@ package com.david.dev.portfolio_be.controller;
 import com.david.dev.portfolio_be.model.ProjectCard;
 import com.david.dev.portfolio_be.model.dto.ProjectCardDTO;
 import com.david.dev.portfolio_be.service.ProjectCardService;
-import com.david.dev.portfolio_be.service.ProjectCardTechService;
-import com.david.dev.portfolio_be.service.ProjectTechService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -46,7 +45,7 @@ public class ProjectCardController {
 
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<ProjectCard> updateProjectCard(
-            @PathVariable("id") Long id,
+            @PathVariable("id") UUID id,
             @RequestBody ProjectCardDTO projectCardDTO) throws IOException {
 
         ProjectCard updatedProjectCard = projectCardService.updateProjectCard(id, projectCardDTO);
@@ -54,7 +53,7 @@ public class ProjectCardController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProjectCard(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteProjectCard(@PathVariable("id") UUID id) {
         projectCardService.deleteProjectCard(id);
         return ResponseEntity.noContent().build();
     }
