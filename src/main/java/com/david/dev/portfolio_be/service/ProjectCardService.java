@@ -39,22 +39,22 @@ public class ProjectCardService {
     }
 
     public ProjectCard createProjectCard(ProjectCard projectCard, List<String> techStacks) {
-        // First save the project card
-        ProjectCard savedCard = projectCardRepository.save(projectCard);
+        // Process each tech stack first
+        for (String techName : techStacks) {
+            // Find or create the ProjectTech
+            ProjectTech projectTech = projectTechRepository.findByName(techName)
+                    .orElseGet(() -> projectTechRepository.save(
+                            ProjectTech.builder().name(techName).build()
+                    ));
 
-        // Process each tech stack
-        for (String cardTech : techStacks) {
-            // Use the fixed repository method
-            ProjectTech existingTech = projectTechRepository.findByProjecttechName(cardTech)
-                    .orElseGet(() -> projectTechRepository.save(new ProjectTech(cardTech)));
-
-            // Create the relationship
-            ProjectCardTech newCardTech = new ProjectCardTech(savedCard, existingTech);
-            projectCardTechRepository.save(newCardTech);
+            // Use the entity's addTech() to build the relationship
+            projectCard.addTech(projectTech);
         }
 
-        return projectCardRepository.findById(savedCard.getProjectcard_id())
-                .orElseThrow(() -> new RuntimeException("Failed to create project card"));
+        // Single save cascades to ProjectCardTechs (no need for manual ProjectCardTechRepository.save)
+        ProjectCard savedCard = projectCardRepository.save(projectCard);
+
+        return savedCard;
     }
 
     public ProjectCard updateProjectCard(UUID id, ProjectCardDTO projectCardDTO) throws IOException {
@@ -62,13 +62,13 @@ public class ProjectCardService {
                 .orElseThrow(() -> new RuntimeException("ProjectCard not found with id: " + id));
 
         if (projectCardDTO.getTitle() != null) {
-            existingProjectCard.setProjectcard_title(projectCardDTO.getTitle());
+            existingProjectCard.setTitle(projectCardDTO.getTitle());
         }
         if (projectCardDTO.getDescription() != null) {
-            existingProjectCard.setProjectcard_description(projectCardDTO.getDescription());
+            existingProjectCard.setDescription(projectCardDTO.getDescription());
         }
         if (projectCardDTO.getBase64Image() != null && !projectCardDTO.getBase64Image().isEmpty()) {
-            existingProjectCard.setProjectcard_image(projectCardDTO.getBase64Image().getBytes());
+            existingProjectCard.setImage(projectCardDTO.getBase64Image().getBytes());
         }
 
         return projectCardRepository.save(existingProjectCard);
@@ -85,7 +85,7 @@ public class ProjectCardService {
         projectCardRepository.deleteById(id);
         for(ProjectCardTech cardTech : relatedTechs) {
             if (projectCardTechRepository.findAllByProjectTech(cardTech.getProjectTech()).size() == 0) {
-                projectTechRepository.deleteById(cardTech.getProjectTech().getProjecttech_id());
+                projectTechRepository.deleteById(cardTech.getProjectTech().getId());
             }
         }
     }

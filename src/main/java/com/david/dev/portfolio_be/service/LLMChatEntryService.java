@@ -18,7 +18,13 @@ public class LLMChatEntryService {
     }
 
     public LLMChatEntry createLLMChatEntry(LLMChatEntryDTO llmChatEntryDto) {
-        LLMChatEntry llmChatEntry = new LLMChatEntry(llmChatUserRepository.getReferenceById(llmChatEntryDto.getLlmChatUserId()), llmChatEntryDto.getText(), llmChatEntryDto.getIsUser(), llmChatEntryDto.getEntry_order());
+        LLMChatEntry llmChatEntry = LLMChatEntry.builder()
+                .llmChatUser(llmChatUserRepository.getReferenceById(llmChatEntryDto.getLlmChatUserId()))
+                .text(llmChatEntryDto.getText())
+                .fromUser(llmChatEntryDto.getIsUser())  // Changed to isUser() for boolean getter
+                .entryOrder(llmChatEntryDto.getEntry_order())  // Match renamed field
+                .build();
+
         return llmChatEntryRepository.save(llmChatEntry);
     }
 

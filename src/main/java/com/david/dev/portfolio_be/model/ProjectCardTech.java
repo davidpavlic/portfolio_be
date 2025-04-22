@@ -1,34 +1,35 @@
 package com.david.dev.portfolio_be.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
-import java.util.UUID;
-
+/**
+ * Join entity linking a {@link ProjectCard} with a {@link ProjectTech}.
+ * This enables a many-to-many relationship with the ability to expand later
+ */
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Table(name="project_card_tech")
-public class ProjectCardTech {
+@AllArgsConstructor(access = AccessLevel.PRIVATE) //Private constructor to enforce builder pattern.
+@Builder
+@Table(
+    name="project_card_tech",
+    uniqueConstraints = @UniqueConstraint( // Prevent duplicate associations
+        columnNames = {"projectcard_id", "projecttech_id"}
+    )
+)
+public class ProjectCardTech extends BaseEntity{
 
-    @Id
-    @GeneratedValue
-    private UUID id;
-
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "projectcard_id")
+    @JoinColumn(name = "projectcard_id", nullable = false)
     private ProjectCard projectCard;
 
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "projecttech_id")
+    @JoinColumn(name = "projecttech_id", nullable = false)
     private ProjectTech projectTech;
-
-    public ProjectCardTech(ProjectCard projectCard, ProjectTech projectTech) {
-        this.projectCard = projectCard;
-        this.projectTech = projectTech;
-    }
 
 }

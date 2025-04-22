@@ -36,7 +36,11 @@ public class ProjectCardController {
             @RequestParam("image") MultipartFile image) throws IOException {
 
         ProjectCard projectCard = projectCardService.createProjectCard(
-            new ProjectCard(title, description, image != null ? image.getBytes() : null),
+                ProjectCard.builder()
+                        .title(title)
+                        .description(description)
+                        .image(image != null ? image.getBytes() : null)
+                        .build(),
                 techStacks
         );
 

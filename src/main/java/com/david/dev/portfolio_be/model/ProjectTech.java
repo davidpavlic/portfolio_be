@@ -1,26 +1,26 @@
 package com.david.dev.portfolio_be.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
-import java.util.UUID;
-
+/**
+ * Represents a project tech entity containing details about a tech associated with a project,
+ * it contains the name of the technology.
+ */
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE) //Private constructor to enforce builder pattern.
+@Builder
 @Table(name="project_tech")
-public class ProjectTech {
+public class ProjectTech extends BaseEntity{
 
-    @Id
-    @GeneratedValue
-    private UUID projecttech_id;
+    @NotBlank
+    @Size(max = 32)
+    @Column(nullable = false, length = 32, unique = true)
+    private String name;
 
-    private String projecttech_name;
-
-    public ProjectTech(String projecttech_name) {
-        this.projecttech_name = projecttech_name;
-    }
 }

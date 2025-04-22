@@ -2,44 +2,36 @@ package com.david.dev.portfolio_be.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.UUID;
-
+/**
+ * Represents a chat entry in a conversation with an LLM (Large Language Model).
+ * Each entry can be either from the user or the model, and is associated with a specific chat session.
+ */
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE) //Private constructor to enforce builder pattern.
+@Builder
 @Table(name="llm_chat_entry")
-public class LLMChatEntry {
-
-    @Id
-    @GeneratedValue
-    private UUID llm_entry_id;
+public class LLMChatEntry extends BaseEntity{
 
     @NotNull
-    @JsonBackReference
+    @JsonBackReference  // Prevents infinite recursion during serialization
     @ManyToOne
-    @JoinColumn(name = "llm_chat_id")
+    @JoinColumn(name = "chat_id", nullable = false)
     private LLMChatUser llmChatUser;
 
-    @NotNull
-    @Column(columnDefinition = "TEXT")
+    @NotBlank
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String text;
 
-    @NotNull
-    private Boolean isUser;
+    @Column(nullable = false)
+    private boolean fromUser;
 
-    @NotNull
-    private Integer entry_order;
-
-    public LLMChatEntry(LLMChatUser llmChatUser, String text, Boolean isUser, Integer entry_order) {
-        this.llmChatUser = llmChatUser;
-        this.text = text;
-        this.isUser = isUser;
-        this.entry_order = entry_order;
-    }
+    @Column(nullable = false)
+    private int entryOrder;
 }

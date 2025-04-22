@@ -1,15 +1,19 @@
 package com.david.dev.portfolio_be.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProjectTechDTO {
-    private UUID projecttech_id;
+    private UUID id;
+
+    @NotBlank
+    @Size(max = 32)
     private String name;
 }

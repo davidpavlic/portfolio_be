@@ -12,6 +12,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ProjectTechRepository extends JpaRepository<ProjectTech, UUID> {
-    @Query("SELECT pt FROM ProjectTech pt WHERE pt.projecttech_name = :name")
-    Optional<ProjectTech> findByProjecttechName(@Param("name") String name);
+    @Query("SELECT pt FROM ProjectTech pt WHERE pt.name = :name")
+    Optional<ProjectTech> findByName(@Param("name") String name);
 }

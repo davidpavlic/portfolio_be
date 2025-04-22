@@ -26,7 +26,7 @@ public class ProjectCardTechService {
         List<ProjectCardTech> projectCardTechList = new ArrayList<>();
         if(!projectTechList.isEmpty()){
             for(ProjectTech projectTech : projectTechList){
-                projectCardTechList.add(new ProjectCardTech(projectCard, projectTech));
+                projectCardTechList.add(ProjectCardTech.builder().projectCard(projectCard).projectTech(projectTech).build());
             }
         }
         return projectCardTechRepository.saveAll(projectCardTechList);

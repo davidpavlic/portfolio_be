@@ -2,35 +2,44 @@ package com.david.dev.portfolio_be.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
+/**
+ * Represents a user in a chat session with an LLM (Large Language Model).
+ * Each user can have multiple chat entries associated with them.
+ */
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Table(name="llm_chat_user")
-public class LLMChatUser {
+public class LLMChatUser extends BaseEntity{
 
-    @Id
-    @GeneratedValue
-    private UUID llm_chat_id;
+    //@NotNull
+    //@JsonBackReference
+    //@ManyToOne
+    @JoinColumn(name = "user_id"/*, nullable = false*/)
+    private Long userId;
 
-    private Long user_id;
-
+    @NotBlank
+    @Column(length = 255, nullable = false)
     private String title;
 
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMPTZ")
+    @UpdateTimestamp
+    @Column(columnDefinition = "TIMESTAMPTZ")
     private Instant updatedAt;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "llmChatUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LLMChatEntry> llm_chat_entries = new ArrayList<>();
+    @Builder.Default
+    private List<LLMChatEntry> llmChatEntries = new ArrayList<>();
 
 }

@@ -9,15 +9,14 @@ public class ProjectTechMapper {
 
     public ProjectTechDTO toDTO(ProjectTech projectTech) {
         return new ProjectTechDTO(
-                projectTech.getProjecttech_id(),
-                projectTech.getProjecttech_name()
+                projectTech.getId(),
+                projectTech.getName()
         );
     }
 
     public ProjectTech toEntity(ProjectTechDTO projectTechDTO) {
-        return new ProjectTech(
-                projectTechDTO.getProjecttech_id(),
-                projectTechDTO.getName()
-        );
+        return ProjectTech.builder()
+                .name(projectTechDTO.getName())
+                .build();
     }
 }

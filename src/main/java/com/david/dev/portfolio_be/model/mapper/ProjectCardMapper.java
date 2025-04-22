@@ -12,21 +12,21 @@ public class ProjectCardMapper {
 
     public ProjectCardDTO toDTO(ProjectCard projectCard) {
         return new ProjectCardDTO(
-                projectCard.getProjectcard_id(),
-                projectCard.getProjectcard_title(),
-                projectCard.getProjectcard_description(),
-                ImageUtil.encodeBase64Image(projectCard.getProjectcard_image()),
+                projectCard.getId(),
+                projectCard.getTitle(),
+                projectCard.getDescription(),
+                ImageUtil.encodeBase64Image(projectCard.getImage()),
                 projectCard.getTechStacks().stream()
-                        .map(tech -> tech.getProjectTech().getProjecttech_name())
+                        .map(tech -> tech.getProjectTech().getName())
                         .collect(Collectors.toList())
         );
     }
 
     public ProjectCard toEntity(ProjectCardDTO projectCardDTO) {
-        return new ProjectCard(
-                projectCardDTO.getTitle(),
-                projectCardDTO.getDescription(),
-                ImageUtil.decodeBase64Image(projectCardDTO.getBase64Image())
-        );
+        return ProjectCard.builder()
+                .title(projectCardDTO.getTitle())
+                .description(projectCardDTO.getDescription())
+                .image(ImageUtil.decodeBase64Image(projectCardDTO.getBase64Image()))
+                .build();
     }
 }

@@ -47,7 +47,9 @@ public class ProjectTechService {
             return new ArrayList<>();
         List<ProjectTech> projectTechList = new ArrayList<>();
         for(String projectTechDTO : projectTechDTOs){
-            projectTechList.add(new ProjectTech(projectTechDTO));
+            projectTechList.add(ProjectTech.builder()
+                    .name(projectTechDTO)
+                    .build());
         }
         return projectTechRepository.saveAll(projectTechList);
     }

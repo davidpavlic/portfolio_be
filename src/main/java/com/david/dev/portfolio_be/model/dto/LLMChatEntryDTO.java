@@ -1,18 +1,27 @@
 package com.david.dev.portfolio_be.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class LLMChatEntryDTO {
-    private UUID llm_entry_id;
+    private UUID id;
+
+    @NotNull
     private UUID llmChatUserId;
+
+    @NotBlank
     private String text;
-    private Boolean isUser;
-    private Integer entry_order;
+
+    private boolean fromUser;
+
+    @Min(value = 0)
+    private int entryOrder;
 }
