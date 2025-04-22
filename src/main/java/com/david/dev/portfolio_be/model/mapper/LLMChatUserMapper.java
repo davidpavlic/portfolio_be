@@ -9,7 +9,10 @@ public class LLMChatUserMapper {
         return new LLMChatUserDTO(
                 entry.getId(),
                 entry.getTitle(),
-                entry.getUpdatedAt()
+                entry.getUpdatedAt(),
+                entry.getLlmChatEntries() != null ? entry.getLlmChatEntries().stream()
+                        .map(LLMChatEntryMapper::toDTO)
+                        .toList() : null
         );
     }
 

@@ -30,7 +30,7 @@ public class LLMChatUserController {
     }
 
     @PostMapping({"", "/"})
-    public ResponseEntity<LLMChatUserDTO> createUser(@RequestBody @Valid LLMChatUserDTO llmChatUserDto) {
+    public ResponseEntity<LLMChatUserDTO> createUserChat(@RequestBody @Valid LLMChatUserDTO llmChatUserDto) {
         return ResponseEntity.status(201).body(
                 llmChatUserService.createLLMChatUser(llmChatUserDto)
         );
@@ -42,5 +42,4 @@ public class LLMChatUserController {
                 ResponseEntity.noContent().build() :
                 ResponseEntity.notFound().build();
     }
-
 }

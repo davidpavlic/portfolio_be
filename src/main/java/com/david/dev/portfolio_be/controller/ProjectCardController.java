@@ -57,5 +57,4 @@ public class ProjectCardController {
                 ResponseEntity.noContent().build() :
                 ResponseEntity.notFound().build();
     }
-
 }
