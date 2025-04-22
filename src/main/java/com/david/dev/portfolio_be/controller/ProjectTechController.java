@@ -1,16 +1,13 @@
 package com.david.dev.portfolio_be.controller;
 
-import com.david.dev.portfolio_be.model.dto.ProjectCardDTO;
 import com.david.dev.portfolio_be.model.dto.ProjectTechDTO;
 import com.david.dev.portfolio_be.service.ProjectTechService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
+import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/projecttech")
 public class ProjectTechController {
@@ -22,7 +19,7 @@ public class ProjectTechController {
     }
 
     @GetMapping({"", "/"})
-    public Collection<ProjectTechDTO> getAllProjectCards() {
+    public List<ProjectTechDTO> getAllProjectTechs() {
         return projectTechService.getAllProjectTechs();
     }
 

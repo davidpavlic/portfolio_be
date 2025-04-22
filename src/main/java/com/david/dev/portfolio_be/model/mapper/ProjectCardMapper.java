@@ -3,14 +3,12 @@ package com.david.dev.portfolio_be.model.mapper;
 import com.david.dev.portfolio_be.model.ProjectCard;
 import com.david.dev.portfolio_be.model.dto.ProjectCardDTO;
 import com.david.dev.portfolio_be.util.ImageUtil;
-import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-@Component
 public class ProjectCardMapper {
 
-    public ProjectCardDTO toDTO(ProjectCard projectCard) {
+    public static ProjectCardDTO toDTO(ProjectCard projectCard) {
         return new ProjectCardDTO(
                 projectCard.getId(),
                 projectCard.getTitle(),
@@ -22,7 +20,7 @@ public class ProjectCardMapper {
         );
     }
 
-    public ProjectCard toEntity(ProjectCardDTO projectCardDTO) {
+    public static ProjectCard toEntity(ProjectCardDTO projectCardDTO) {
         return ProjectCard.builder()
                 .title(projectCardDTO.getTitle())
                 .description(projectCardDTO.getDescription())

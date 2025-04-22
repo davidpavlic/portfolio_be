@@ -3,12 +3,10 @@ package com.david.dev.portfolio_be.model.mapper;
 import com.david.dev.portfolio_be.model.LLMChatEntry;
 import com.david.dev.portfolio_be.model.LLMChatUser;
 import com.david.dev.portfolio_be.model.dto.LLMChatEntryDTO;
-import org.springframework.stereotype.Component;
 
-@Component
 public class LLMChatEntryMapper {
 
-    public LLMChatEntryDTO toDTO(LLMChatEntry entry) {
+    public static LLMChatEntryDTO toDTO(LLMChatEntry entry) {
         return new LLMChatEntryDTO(
                 entry.getId(),
                 entry.getLlmChatUser().getId(),
@@ -18,7 +16,7 @@ public class LLMChatEntryMapper {
         );
     }
 
-    public LLMChatEntry toEntity(LLMChatEntryDTO dto, LLMChatUser llmChatUser) {
+    public static LLMChatEntry toEntity(LLMChatEntryDTO dto, LLMChatUser llmChatUser) {
         return LLMChatEntry.builder()
                 .llmChatUser(llmChatUser)
                 .text(dto.getText())
