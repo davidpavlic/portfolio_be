@@ -1,13 +1,12 @@
 package com.david.dev.portfolio_be.controller;
 
-import com.david.dev.portfolio_be.model.LLMChatUser;
+import com.david.dev.portfolio_be.model.dto.LLMChatUserDTO;
 import com.david.dev.portfolio_be.service.LLMChatUserService;
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,25 +20,27 @@ public class LLMChatUserController {
     }
 
     @GetMapping({"", "/"})
-    public Collection<LLMChatUser> getAllLLMChats() {
+    public List<LLMChatUserDTO> getAllLLMChats() {
         return llmChatUserService.getAllLLMChats();
     }
 
     @GetMapping({"{id}", "{id}/"})
-    public Optional<LLMChatUser> getLLMChatsByChat(@PathVariable("id") UUID id) {
+    public LLMChatUserDTO getLLMChatsByChat(@PathVariable("id") UUID id) {
         return llmChatUserService.getAllLLMChatsByChat(id);
     }
 
     @PostMapping({"", "/"})
-    public ResponseEntity<LLMChatUser> createUser(@RequestBody LLMChatUser llmChatUser) {
-        LLMChatUser llmChatUserResponse = llmChatUserService.createLLMChatUser(llmChatUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(llmChatUserResponse);
+    public ResponseEntity<LLMChatUserDTO> createUser(@RequestBody @Valid LLMChatUserDTO llmChatUserDto) {
+        return ResponseEntity.status(201).body(
+                llmChatUserService.createLLMChatUser(llmChatUserDto)
+        );
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLLMChat(@PathVariable("id") UUID id) {
-        llmChatUserService.deleteLLMChat(id);
-        return ResponseEntity.noContent().build();
+        return llmChatUserService.deleteLLMChat(id) ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.notFound().build();
     }
 
 }

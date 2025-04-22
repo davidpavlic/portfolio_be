@@ -1,9 +1,8 @@
 package com.david.dev.portfolio_be.controller;
 
-import com.david.dev.portfolio_be.model.LLMChatEntry;
 import com.david.dev.portfolio_be.model.dto.LLMChatEntryDTO;
 import com.david.dev.portfolio_be.service.LLMChatEntryService;
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +17,10 @@ public class LLMChatEntryController {
     }
 
     @PostMapping({"", "/"})
-    public ResponseEntity<LLMChatEntry> createUser(@RequestBody LLMChatEntryDTO llmChatEntryDto) {
-        LLMChatEntry llmChatEntry = llmChatEntryService.createLLMChatEntry(llmChatEntryDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(llmChatEntry);
+    public ResponseEntity<LLMChatEntryDTO> createChatEntry(@RequestBody @Valid LLMChatEntryDTO llmChatEntryDto) {
+        return ResponseEntity.status(201).body(
+                llmChatEntryService.createLLMChatEntry(llmChatEntryDto)
+        );
     }
 
 }

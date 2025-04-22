@@ -2,6 +2,7 @@ package com.david.dev.portfolio_be.service;
 
 import com.david.dev.portfolio_be.model.LLMChatEntry;
 import com.david.dev.portfolio_be.model.dto.LLMChatEntryDTO;
+import com.david.dev.portfolio_be.model.mapper.LLMChatEntryMapper;
 import com.david.dev.portfolio_be.repository.LLMChatEntryRepository;
 import com.david.dev.portfolio_be.repository.LLMChatUserRepository;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class LLMChatEntryService {
         this.llmChatUserRepository = llmChatUserRepository;
     }
 
-    public LLMChatEntry createLLMChatEntry(LLMChatEntryDTO llmChatEntryDto) {
+    public LLMChatEntryDTO createLLMChatEntry(LLMChatEntryDTO llmChatEntryDto) {
         LLMChatEntry llmChatEntry = LLMChatEntry.builder()
                 .llmChatUser(llmChatUserRepository.getReferenceById(llmChatEntryDto.getLlmChatUserId()))
                 .text(llmChatEntryDto.getText())
@@ -25,8 +26,6 @@ public class LLMChatEntryService {
                 .entryOrder(llmChatEntryDto.getEntryOrder())  // Match renamed field
                 .build();
 
-        return llmChatEntryRepository.save(llmChatEntry);
+        return LLMChatEntryMapper.toDTO(llmChatEntryRepository.save(llmChatEntry));
     }
-
-
 }
