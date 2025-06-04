@@ -79,6 +79,7 @@ public class ProjectCardService {
 
         relatedTechs.stream()
                 .map(ProjectCardTech::getProjectTech)
+                //.filter(tech -> !projectCardTechRepository.exists(tech))
                 .filter(tech -> projectCardTechRepository.findAllByProjectTech(tech).isEmpty())
                 .forEach(tech -> projectTechRepository.deleteById(tech.getId()));
 

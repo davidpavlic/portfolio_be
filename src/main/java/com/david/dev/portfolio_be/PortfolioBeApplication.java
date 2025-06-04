@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 //TODO: Learn Security
 //TODO: Add a cutom header
+//TODO: Exception Handler Springboot
 /**
  * Main class for the Portfolio Backend Application.
  * This is the entry point of the Spring Boot application.

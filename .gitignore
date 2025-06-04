@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Ignore the secrets YAML file
+src/main/resources/secrets.yml
